@@ -9,9 +9,11 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
 
     env:
-      VERSION: 2021.07.26.20
       PACKAGE_OUTPUT_DIRECTORY: ./nupkg
 
     steps:
@@ -22,6 +24,17 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 8.0.x
+
+      - name: Extraer versión desde el csproj
+        id: extract_version
+        run: |
+          VERSION=$(grep -oP '(?<=<Version>).*(?=</Version>)' MyMath/Math.Lib/Math.Lib.csproj | head -n 1)
+          if [ -z "$VERSION" ]; then
+            echo "Error: No se pudo extraer la versión"
+            exit 1
+          fi
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Versión detectada: $VERSION"
 
       - name: Restaurar dependencias  
         run: dotnet restore MyMath/Math.Lib/Math.Lib.csproj
@@ -35,17 +48,17 @@ jobs:
 
       - name: Configurar NuGet para GitHub Packages
         run: |
-          dotnet nuget remove source github || echo "No existing source"
+          dotnet nuget remove source github || echo "No existe fuente github"
           dotnet nuget add source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
             --name github \
             --username ${{ github.actor }} \
-            --password ${{ secrets.NUGET }} \
+            --password ${{ secrets.GH_TOKEN }} \
             --store-password-in-clear-text
 
       - name: Subir paquete a GitHub Packages
         run: |
           dotnet nuget push "${{ env.PACKAGE_OUTPUT_DIRECTORY }}/*.nupkg" \
-            --api-key ${{ secrets.NUGET }} \
+            --api-key ${{ secrets.GH_TOKEN }} \
             --source github \
             --skip-duplicate
 
@@ -55,3 +68,4 @@ jobs:
           tag_name: ${{ env.VERSION }}
           name: Release ${{ env.VERSION }}
           files: ${{ env.PACKAGE_OUTPUT_DIRECTORY }}/*.nupkg
+          token: ${{ secrets.GH_TOKEN }}
