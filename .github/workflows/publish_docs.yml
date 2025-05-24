@@ -1,0 +1,32 @@
+name: Publish Documentation
+
+on:
+  push:
+    branches:
+      - main  # o la rama principal que uses
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v3
+
+      - name: Instalar .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
+
+      - name: Instalar DocFX
+        run: dotnet tool install -g docfx
+
+      - name: Generar documentación
+        run: |
+          docfx docfx.json
+
+      - name: Publicar en GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.TOKEN }}
+          publish_dir: ./_site
