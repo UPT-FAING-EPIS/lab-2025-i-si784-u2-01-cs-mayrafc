@@ -6,13 +6,12 @@ on:
       - main
   workflow_dispatch:
 
-
 jobs:
   release:
     runs-on: ubuntu-latest
 
-  env:
-    VERSION: 2021.07.26.20
+    env:
+      VERSION: 2021.07.26.20
 
     steps:
       - name: Checkout del código
