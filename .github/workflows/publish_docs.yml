@@ -13,20 +13,19 @@ jobs:
       - name: Clonar repositorio
         uses: actions/checkout@v3
 
-      - name: Instalar .NET SDK
-        uses: actions/setup-dotnet@v3
+      - name: Instalar .NET SDK 8
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: '8.0.x'
 
       - name: Instalar DocFX
         run: dotnet tool install -g docfx
 
       - name: Generar documentación
-        run: |
-          docfx docfx.json
+        run: docfx docfx.json
 
       - name: Publicar en GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }} 
           publish_dir: ./_site
