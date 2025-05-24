@@ -1,0 +1,42 @@
+name: Release NuGet Package
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    env:
+      VERSION: 2021072620
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v3
+
+      - name: Configurar .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restaurar dependencias
+        run: dotnet restore MyMath/Math.Lib/Math.Lib.csproj
+
+      - name: Empaquetar NuGet
+        run: |
+          dotnet pack MyMath/Math.Lib/Math.Lib.csproj \
+            --configuration Release \
+            -p:PackageVersion=${{ env.VERSION }} \
+            -o ./nupkg
+
+      - name: Publicar en GitHub Packages
+        run: dotnet nuget push "./nupkg/*.nupkg" \
+          --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
+          --api-key ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Crear Release en GitHub
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.VERSION }}
+          name: Release ${{ env.VERSION }}
+          files: ./nupkg/*.nupkg
