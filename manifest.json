@@ -14,7 +14,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Math.Lib.Rooter",
-      "Summary": "<p sourcefile=\"api/Math.Lib.Rooter.yml\" sourcestartlinenumber=\"1\">Proporciona métodos matemáticos personalizados.</p>\n"
+      "Summary": null
     },
     {
       "type": "ManagedReference",
