@@ -33,9 +33,8 @@ jobs:
             -o ./nupkg
 
       - name: Publicar en GitHub Packages
-        run: dotnet nuget push "./nupkg/*.nupkg" \
-          --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
-          --api-key ${{ secrets.GITHUB_TOKEN }}
+        run: dotnet nuget push ./nupkg/*.nupkg --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" --api-key ${{ secrets.GITHUB_TOKEN }}
+
 
       - name: Crear Release en GitHub
         uses: softprops/action-gh-release@v1
