@@ -24,7 +24,8 @@ jobs:
         run: dotnet restore ./MyMath/MyMath.sln
 
       - name: Compilar solución
-        run: dotnet build --no-restore --configuration Release
+        run: dotnet build ./MyMath/MyMath.sln --no-restore --configuration Release
+
 
       - name: Ejecutar pruebas con cobertura
         run: |
