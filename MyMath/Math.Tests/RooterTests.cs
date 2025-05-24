@@ -43,7 +43,8 @@ namespace Math.Tests
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                StringAssert.Contains(ex.Message, "El valor ingresado es inválido, solo se puede ingresar números positivos.");
+                StringAssert.Contains(ex.Message, "El valor ingresado es invalido, solo se puede ingresar números positivos");
+
             }
         }
 

@@ -7,7 +7,7 @@ namespace Math.Lib
         public double SquareRoot(double input)
         {
             if (input <= 0.0)
-                throw new ArgumentOutOfRangeException(nameof(input), "El valor ingresado es inválido, solo se puede ingresar números positivos.");
+                throw new ArgumentOutOfRangeException(nameof(input), "El valor ingresado es invalido, solo se puede ingresar números positivos");
 
             double result = input;
             double previousResult = -input;
