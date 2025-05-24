@@ -63,9 +63,10 @@ jobs:
       - name: Subir paquete a GitHub Packages
         run: |
           dotnet nuget push "${{ env.PACKAGE_OUTPUT_DIRECTORY }}/*.nupkg" \
-            --api-key ${{ secrets.TOKENNUEVO }}
+            --api-key ${{ secrets.TOKENNUEVO }} \
             --source github \
             --skip-duplicate
+
 
       - name: Crear Release en GitHub
         uses: softprops/action-gh-release@v1
