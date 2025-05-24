@@ -28,13 +28,18 @@ jobs:
       - name: Extraer versión desde el csproj
         id: extract_version
         run: |
+          echo "Contenido del archivo csproj:"
+          cat MyMath/Math.Lib/Math.Lib.csproj
+
           VERSION=$(grep -oP '(?<=<Version>).*(?=</Version>)' MyMath/Math.Lib/Math.Lib.csproj | head -n 1)
+          echo "Versión encontrada: $VERSION"
+
           if [ -z "$VERSION" ]; then
             echo "Error: No se pudo extraer la versión"
             exit 1
           fi
+
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "Versión detectada: $VERSION"
 
       - name: Restaurar dependencias  
         run: dotnet restore MyMath/Math.Lib/Math.Lib.csproj
