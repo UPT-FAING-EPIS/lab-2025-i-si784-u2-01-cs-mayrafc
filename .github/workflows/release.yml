@@ -54,7 +54,7 @@ jobs:
       - name: Configurar NuGet para GitHub Packages
         run: |
           dotnet nuget remove source github || echo "No existe fuente github"
-          dotnet nuget add source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
+          dotnet nuget add source "https://nuget.pkg.github.com/mayrafc/index.json" \
             --name github \
             --username ${{ github.actor }} \
             --password ${{ secrets.TOKENNUEVO }} \
