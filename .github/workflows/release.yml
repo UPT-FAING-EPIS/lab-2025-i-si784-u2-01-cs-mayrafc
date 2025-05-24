@@ -42,3 +42,4 @@ jobs:
           tag_name: ${{ env.VERSION }}
           name: Release ${{ env.VERSION }}
           files: ./nupkg/*.nupkg
+##############
