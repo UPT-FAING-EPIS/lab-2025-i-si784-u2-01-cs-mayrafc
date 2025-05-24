@@ -35,13 +35,14 @@ jobs:
 
       - name: Configurar NuGet para GitHub Packages
         run: |
+          dotnet nuget remove source github || echo "No existing source"
           dotnet nuget add source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
-            --name "github" \
+            --name github \
             --username ${{ github.actor }} \
             --password ${{ secrets.NUGET }} \
             --store-password-in-clear-text
 
-      - name: Push package to GitHub Packages
+      - name: Subir paquete a GitHub Packages
         run: |
           dotnet nuget push "${{ env.PACKAGE_OUTPUT_DIRECTORY }}/*.nupkg" \
             --api-key ${{ secrets.NUGET }} \
