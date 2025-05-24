@@ -40,8 +40,11 @@ jobs:
             --password ${{ secrets.GITHUB_TOKEN }} \
             --store-password-in-clear-text
 
-      - name: Publicar en GitHub Packages
-        run: dotnet nuget push ./nupkg/*.nupkg --source github --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
+      - name: Push package to GitHub Packages
+        run: dotnet nuget push "${{ env.PACKAGE_OUTPUT_DIRECTORY }}/*.nupkg" \
+          --api-key ${{ secrets.NUGET }} \
+          --source github \
+          --skip-duplicate
 
 
 
