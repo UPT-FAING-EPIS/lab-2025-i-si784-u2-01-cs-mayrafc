@@ -31,11 +31,11 @@ namespace Math.Tests
             Assert.Fail();
         }
 
-        [TestMethod]
+       [TestMethod]
         public void RooterTestNegativeInputWithMessage()
         {
             Rooter rooter = new Rooter();
-            
+
             try
             {
                 rooter.SquareRoot(-5);
@@ -43,9 +43,10 @@ namespace Math.Tests
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                StringAssert.Contains(ex.Message, "El valor ingresado es invalido, solo se puede ingresar números positivos");
+                StringAssert.Contains(ex.Message, "El valor ingresado es inválido, solo se puede ingresar números positivos");
             }
         }
+
 
     }
 }
